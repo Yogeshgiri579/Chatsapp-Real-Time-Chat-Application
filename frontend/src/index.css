@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* Premium Modern / Luxury UI Palette */
+  --bg-app: #09090b;          /* Zinc 950 - softer than pure black */
+  --bg-sidebar: #09090b;      
+  --bg-chat: #050505;         /* Very subtle contrast for chat area */
+  --bg-header: #09090b;       
+  --bg-input-bar: #09090b;    
+  --bg-search: #18181b;       /* Zinc 900 */
+  
+  --bg-bubble-in: #18181b;    
+  --bg-bubble-out: #4f46e5;   /* Premium Indigo */
+  --bg-hover: #18181b;        
+  --bg-active: #27272a;       
+  
+  --border: #27272a;          /* Soft border */
+  --border-light: #3f3f46;    
+
+  --text-primary: #f4f4f5;    /* Zinc 100 for soft but clear contrast */
+  --text-secondary: #a1a1aa;  /* Zinc 400 */
+  --text-muted: #52525b;      /* Zinc 600 */
+  --text-inverse: #ffffff;    
+
+  --accent: #6366f1;          /* Premium Indigo 500 */
+  --accent-hover: #4f46e5;    
+
+  --danger: #e11d48;          /* Premium Rose */
+  --success: #10b981;         /* Emerald green */
+
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+/* Custom scrollbar - Ultimate minimal */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Base animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease forwards;
+}
+
+/* Premium Chat background pattern - Extremely subtle luxury noise */
+.chat-bg {
+  position: absolute;
+  inset: 0;
+  background-color: var(--bg-chat);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 24px 24px;
+  z-index: 0;
+  pointer-events: none;
+}
