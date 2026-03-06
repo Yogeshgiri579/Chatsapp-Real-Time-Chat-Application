@@ -1,46 +1,84 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
-  /* Premium Modern / Luxury UI Palette */
-  --bg-app: #09090b;          /* Zinc 950 - softer than pure black */
-  --bg-sidebar: #09090b;      
-  --bg-chat: #050505;         /* Very subtle contrast for chat area */
-  --bg-header: #09090b;       
-  --bg-input-bar: #09090b;    
-  --bg-search: #18181b;       /* Zinc 900 */
+  /* Light & Soft Color Palette */
+  --bg-app: #faf8f3;          /* Warm milky white/beige */
+  --bg-sidebar: #fef9f5;      /* Very light warm white */
+  --bg-chat: #fef3f5;         /* Light pink tint */
+  --bg-header: #fef9f5;       
+  --bg-input-bar: #fef9f5;    
+  --bg-search: #f0f0f2;       /* Light search bar */
   
-  --bg-bubble-in: #18181b;    
-  --bg-bubble-out: #4f46e5;   /* Premium Indigo */
-  --bg-hover: #18181b;        
-  --bg-active: #27272a;       
+  --bg-bubble-in: #ffffff;    /* Pure white for received messages */
+  --bg-bubble-out: #ec4899;   /* Pink for sent messages */
+  --bg-hover: #f0f0f2;        
+  --bg-active: #e8e8ea;       
   
-  --border: #27272a;          /* Soft border */
-  --border-light: #3f3f46;    
+  --border: #e5e5e7;          /* Light border */
+  --border-light: #d4d4d8;    
 
-  --text-primary: #f4f4f5;    /* Zinc 100 for soft but clear contrast */
-  --text-secondary: #a1a1aa;  /* Zinc 400 */
-  --text-muted: #52525b;      /* Zinc 600 */
+  --text-primary: #1f2937;    /* Dark text */
+  --text-secondary: #6b7280;  /* Muted text */
+  --text-muted: #9ca3af;      /* More muted */
   --text-inverse: #ffffff;    
 
-  --accent: #6366f1;          /* Premium Indigo 500 */
-  --accent-hover: #4f46e5;    
+  --accent: #ec4899;          /* Pink */
+  --accent-hover: #db2777;    
+  --accent-light: #f472b6;    /* Light pink */
+  
+  /* New soft gradients */
+  --gradient-purple: linear-gradient(135deg, #ec4899 0%, #f97316 100%);
+  --gradient-blue: linear-gradient(135deg, #60a5fa 0%, #38bdf8 100%);
+  --gradient-emerald: linear-gradient(135deg, #34d399 0%, #06b6d4 100%);
 
-  --danger: #e11d48;          /* Premium Rose */
+  --danger: #ef4444;          /* Red */
   --success: #10b981;         /* Emerald green */
 
   --radius-sm: 8px;
-  --radius-md: 10px;
+  --radius-md: 12px;
   --radius-lg: 16px;
   --radius-full: 9999px;
 
-  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --color-bg-app: var(--bg-app);
+  --color-bg-sidebar: var(--bg-sidebar);
+  --color-bg-chat: var(--bg-chat);
+  --color-bg-header: var(--bg-header);
+  --color-bg-input-bar: var(--bg-input-bar);
+  --color-bg-search: var(--bg-search);
+  --color-bg-bubble-in: var(--bg-bubble-in);
+  --color-bg-bubble-out: var(--bg-bubble-out);
+  --color-bg-hover: var(--bg-hover);
+  --color-bg-active: var(--bg-active);
+
+  --color-border: var(--border);
+  --color-border-light: var(--border-light);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-inverse: var(--text-inverse);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-light: var(--accent-light);
+  
+  /* Aliases for classes mistakenly missing earlier */
+  --color-soft-chat: var(--bg-chat);
+  --color-soft-header: var(--bg-header);
+  --color-soft-sidebar: var(--bg-sidebar);
+  --color-status-active: var(--bg-active);
+  --color-accent-pink: var(--accent);
+  --spacing-md: 12px;
+
+  --color-danger: var(--danger);
+  --color-success: var(--success);
 }
 
 html, body, #root {
@@ -84,12 +122,35 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(99, 102, 241, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.5); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
 .animate-fade-in {
   animation: fadeIn 0.2s ease forwards;
 }
 
 .animate-slide-up {
   animation: slideUp 0.3s ease forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s ease forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
 }
 
 /* Premium Chat background pattern - Extremely subtle luxury noise */

@@ -12,20 +12,16 @@ export default function Input({
   maxLength,
   autoFocus = false,
   autoComplete = 'off',
+  className = '',
 }) {
   const [focused, setFocused] = useState(false);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
+    <div className={`flex flex-col gap-2 w-full ${className}`}>
       {label && (
         <label
           htmlFor={id}
-          style={{
-            fontSize: '13px',
-            fontWeight: 500,
-            color: 'var(--text-secondary)',
-            letterSpacing: '0.01em',
-          }}
+          className="text-[13px] font-medium text-[var(--text-secondary)] tracking-[0.01em]"
         >
           {label}
         </label>
@@ -43,21 +39,11 @@ export default function Input({
         maxLength={maxLength}
         autoFocus={autoFocus}
         autoComplete={autoComplete}
-        style={{
-          width: '100%',
-          padding: '12px 14px',
-          borderRadius: 'var(--radius-sm)',
-          border: `1px solid ${focused ? 'var(--accent)' : 'var(--border)'}`,
-          background: 'transparent',
-          color: 'var(--text-primary)',
-          fontSize: '16px',
-          fontFamily: 'inherit',
-          outline: 'none',
-          transition: 'all var(--transition)',
-          boxShadow: focused ? '0 0 0 1px var(--accent)' : 'none',
-          opacity: disabled ? 0.5 : 1,
-          cursor: disabled ? 'not-allowed' : 'text',
-        }}
+        className={`w-full px-3.5 py-3 rounded-[var(--radius-sm)] border bg-transparent text-[var(--text-primary)] text-base font-sans outline-none transition-all duration-200 ${
+          disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-text'
+        } ${
+          focused ? 'border-[var(--accent)] shadow-[0_0_0_1px_var(--accent)]' : 'border-[var(--border)] shadow-none'
+        }`}
       />
     </div>
   );

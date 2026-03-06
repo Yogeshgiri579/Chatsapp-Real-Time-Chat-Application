@@ -2,72 +2,54 @@ import React from 'react';
 import Avatar from '../common/Avatar.jsx';
 import { formatTime } from '../../utils/formatTime.js';
 
-export default function ChatMessage({ message, isOwn, isGroup }) {
+export default function ChatMessage({ message, isOwn, isGroup, onSenderClick }) {
   const { senderName, senderColor, text, timestamp } = message;
 
   return (
     <div
-      style={{
-        display: 'flex',
-        flexDirection: isOwn ? 'row-reverse' : 'row',
-        alignItems: 'flex-start',
-        alignSelf: isOwn ? 'flex-end' : 'flex-start',
-        marginBottom: '6px',
-        maxWidth: '85%',
-        padding: '0 40px', // Extra padding from edges like WhatsApp
-      }}
+      className={`flex items-end mb-2 max-w-[85%] px-6 animate-[slideUp_0.3s_ease_forwards] ${
+        isOwn ? 'flex-row-reverse self-end' : 'flex-row self-start'
+      } ${isGroup ? 'gap-2' : 'gap-0'}`}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: isOwn ? 'flex-end' : 'flex-start', position: 'relative' }}>
-        {/* Bubble */}
+      {/* Avatar for group chats */}
+      {!isOwn && isGroup && (
         <div
-          style={{
-            padding: '6px 8px 6px 10px',
-            borderRadius: '7.5px',
-            borderTopLeftRadius: !isOwn ? '0' : '7.5px',
-            borderTopRightRadius: isOwn ? '0' : '7.5px',
-            background: isOwn ? 'var(--bg-bubble-out)' : 'var(--bg-bubble-in)',
-            color: 'var(--text-primary)',
-            fontSize: '14px',
-            lineHeight: 1.4,
-            boxShadow: '0 1px 0.5px rgba(0,0,0,0.13)', // Subtle realistic shadow
-            wordBreak: 'break-word',
-            display: 'flex',
-            flexDirection: 'column',
-            minWidth: '80px',
-          }}
+          className="flex mb-1 cursor-pointer hover:opacity-80 transition-opacity"
+          onClick={() => onSenderClick?.({ username: senderName, color: senderColor })}
         >
-          {/* Sender name only for group chats and not own */}
-          {!isOwn && isGroup && senderName && (
-            <span style={{ 
-              fontSize: '12.5px', 
-              fontWeight: 500, 
-              color: senderColor || 'var(--accent)', 
-              marginBottom: '2px', 
-              letterSpacing: '0.01em' 
-            }}>
-              {senderName}
-            </span>
-          )}
+          <Avatar username={senderName} color={senderColor} size="sm" />
+        </div>
+      )}
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', gap: '8px' }}>
-            <span style={{ paddingBottom: '2px' }}>{text}</span>
-            <span
-              style={{
-                fontSize: '10.5px',
-                color: isOwn ? 'rgba(255,255,255,0.65)' : 'var(--text-secondary)',
-                alignSelf: 'flex-end',
-                marginLeft: 'auto',
-                marginTop: '1px',
-                lineHeight: 1,
-              }}
-            >
-              {formatTime(timestamp)}
-              {isOwn && (
-                <svg style={{ marginLeft: '4px', display: 'inline' }} width="16" height="11" viewBox="0 0 16 11" fill="none">
-                  <path d="M4.6 11L0 6.4L1.4 5L4.6 8.2L14.6 0L16 1.4L4.6 11Z" fill="#53bdeb" />
-                </svg>
-              )}
-            </span>
+      <div className={`flex flex-col ${isOwn ? 'items-end' : 'items-start'}`}>
+        {/* Sender name for group chats */}
+        {!isOwn && isGroup && senderName && (
+          <span
+            onClick={() => onSenderClick?.({ username: senderName, color: senderColor })}
+            className="text-xs font-semibold mb-0.5 ml-2 tracking-wide cursor-pointer transition-opacity hover:opacity-70"
+            style={{ color: senderColor || 'var(--accent-light)' }}
+          >
+            {senderName}
+          </span>
+        )}
+
+        {/* Message Bubble */}
+        <div
+          className={`px-[14px] py-[10px] rounded-2xl flex flex-col break-words min-w-[60px] max-w-[400px] transition-all duration-200 ease-out ${
+            isOwn
+              ? 'rounded-tr-[4px] bg-[#ec4899] text-white shadow-[0_4px_12px_rgba(236,72,153,0.25)] hover:shadow-[0_6px_16px_rgba(236,72,153,0.35)] hover:-translate-y-[2px]'
+              : 'rounded-tl-[4px] bg-[var(--bg-bubble-in)] text-[var(--text-primary)] shadow-[0_2px_8px_rgba(0,0,0,0.08)]'
+          } text-[15px] leading-[1.45]`}
+        >
+          <span className="pb-0.5">{text}</span>
+
+          <div className={`flex justify-end items-center gap-1 mt-1 text-[11px] ${isOwn ? 'text-white/75' : 'text-[var(--text-secondary)]'}`}>
+            <span>{formatTime(timestamp)}</span>
+            {isOwn && (
+              <svg className="mt-0.5" width="16" height="11" viewBox="0 0 16 11" fill="none">
+                <path d="M4.6 11L0 6.4L1.4 5L4.6 8.2L14.6 0L16 1.4L4.6 11Z" fill="currentColor" opacity="0.8" />
+              </svg>
+            )}
           </div>
         </div>
       </div>

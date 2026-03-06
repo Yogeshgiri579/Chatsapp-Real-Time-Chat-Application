@@ -1,11 +1,10 @@
-import { createContext, useState, useCallback, useContext } from 'react';
+import { createContext, useState, useCallback, useContext, useEffect } from 'react';
 import { login as apiLogin } from '../services/api.js';
 
 export const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
-    // Restore session on reload
     try {
       const saved = sessionStorage.getItem('chatsapp_user');
       return saved ? JSON.parse(saved) : null;
@@ -14,6 +13,28 @@ export function AuthProvider({ children }) {
     }
   });
   const [loading, setLoading] = useState(false);
+
+  const isMongoId = (id) => /^[a-f\d]{24}$/i.test(id);
+
+  useEffect(() => {
+    const saved = sessionStorage.getItem('chatsapp_user');
+    if (!saved) return;
+    try {
+      const storedUser = JSON.parse(saved);
+      if (!isMongoId(storedUser.id)) {
+        sessionStorage.removeItem('chatsapp_user');
+        setUser(null);
+        return;
+      }
+      apiLogin(storedUser.username).then((freshUser) => {
+        setUser(freshUser);
+        sessionStorage.setItem('chatsapp_user', JSON.stringify(freshUser));
+      }).catch(() => {});
+    } catch {
+      sessionStorage.removeItem('chatsapp_user');
+      setUser(null);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const login = useCallback(async (username) => {
     setLoading(true);
@@ -39,7 +60,6 @@ export function AuthProvider({ children }) {
   );
 }
 
-// convenience hook
 export function useAuth() {
   return useContext(AuthContext);
 }

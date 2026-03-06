@@ -1,62 +1,38 @@
-const RANDOM_MESSAGES = [
-  "That makes sense.",
-  "I'll look into it right now.",
-  "Can we jump on a quick call later?",
-  "LGTM! 🚀",
-  "Exactly what I was thinking.",
-  "Let me check the logs.",
-  "Sure, no problem.",
-  "Thanks for the update.",
-  "Should be deployed in 5 mins.",
-  "Haha valid point.",
-];
+import { io } from 'socket.io-client';
 
-export const connectWebSocket = ({ onMessage, currentUser, conversations }) => {
-  let intervalId = null;
-  let closed = false;
+export const connectWebSocket = ({ onMessage, onRefreshNeeded, onOnlineUsers, onUserOffline, currentUser }) => {
+  const socket = io('http://localhost:3000');
 
-  const getRandomDelay = () => Math.floor(Math.random() * 10000) + 6000;
+  socket.on('connect', () => {
+    socket.emit('identify', currentUser.id);
+  });
 
-  const scheduleNext = () => {
-    if (closed) return;
-    intervalId = setTimeout(() => {
-      if (closed) return;
+  socket.on('receive_message', (message) => {
+    onMessage({
+      ...message,
+      isOwn: message.senderId === currentUser.id,
+    });
+  });
 
-      if (conversations && conversations.length > 0) {
-        // Pick a random conversation
-        const chat = conversations[Math.floor(Math.random() * conversations.length)];
-        // Pick a participant from that chat
-        const participants = chat.participants;
-        const sender = participants[Math.floor(Math.random() * participants.length)];
-        
-        const text = RANDOM_MESSAGES[Math.floor(Math.random() * RANDOM_MESSAGES.length)];
+  socket.on('online_users', (userIds) => {
+    if (onOnlineUsers) onOnlineUsers(userIds);
+  });
 
-        const message = {
-          id: `msg_${Date.now()}_${Math.random().toString(36).slice(2)}`,
-          chatId: chat.id,
-          senderId: sender.id,
-          senderName: sender.name,
-          senderColor: sender.color,
-          text,
-          timestamp: new Date().getTime(),
-          isOwn: false,
-        };
+  socket.on('user_offline', ({ userId, lastSeen }) => {
+    if (onUserOffline) onUserOffline(userId, lastSeen);
+  });
 
-        onMessage(message);
-      }
-      scheduleNext();
-    }, getRandomDelay());
-  };
-
-  setTimeout(scheduleNext, 3000);
+  socket.on('new_user_joined', () => {
+    if (onRefreshNeeded) onRefreshNeeded();
+  });
 
   return {
     send: (messageData) => {
-      console.log('[MockWS] Message sent to server:', messageData);
+      socket.emit('send_message', messageData);
     },
     close: () => {
-      closed = true;
-      if (intervalId) clearTimeout(intervalId);
+      socket.disconnect();
     },
+    socket,
   };
 };

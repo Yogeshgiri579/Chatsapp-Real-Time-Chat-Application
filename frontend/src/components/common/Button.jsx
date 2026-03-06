@@ -9,39 +9,16 @@ export default function Button({
   style = {},
   type = 'button',
   id,
+  className = '',
 }) {
-  const base = {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '8px',
-    padding: '12px 24px',
-    borderRadius: 'var(--radius-full)',
-    fontSize: '15px',
-    fontWeight: 600,
-    fontFamily: 'inherit',
-    cursor: disabled || loading ? 'not-allowed' : 'pointer',
-    border: 'none',
-    outline: 'none',
-    transition: 'all var(--transition)',
-    opacity: disabled || loading ? 0.55 : 1,
-    userSelect: 'none',
-    ...style,
-  };
+  const baseClasses = `inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-[15px] font-semibold font-sans border-none outline-none transition-all duration-200 select-none ${
+    disabled || loading ? 'opacity-55 cursor-not-allowed' : 'cursor-pointer'
+  }`;
 
-  const variants = {
-    primary: {
-      background: 'var(--accent)',
-      color: '#fff',
-    },
-    ghost: {
-      background: 'transparent',
-      color: 'var(--text-secondary)',
-    },
-    danger: {
-      background: 'var(--danger)',
-      color: '#fff',
-    },
+  const variantClasses = {
+    primary: 'bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)]',
+    ghost: 'bg-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-black/5',
+    danger: 'bg-[var(--danger)] text-white hover:bg-red-600',
   };
 
   return (
@@ -50,20 +27,8 @@ export default function Button({
       type={type}
       onClick={onClick}
       disabled={disabled || loading}
-      style={{ ...base, ...variants[variant] }}
-      onMouseEnter={(e) => {
-        if (!disabled && !loading) {
-          if (variant === 'primary') {
-             e.currentTarget.style.background = 'var(--accent-hover)';
-          }
-        }
-      }}
-      onMouseLeave={(e) => {
-        if (!disabled && !loading) {
-           e.currentTarget.style.background = variants[variant].background;
-           e.currentTarget.style.color = variants[variant].color;
-        }
-      }}
+      className={`${baseClasses} ${variantClasses[variant]} ${className} ${style.className || ''}`}
+      style={style.className ? { ...style, className: undefined } : style}
     >
       {loading ? (
         <svg width="18" height="18" viewBox="0 0 24 24" style={{ animation: 'spin 0.8s linear infinite' }}>

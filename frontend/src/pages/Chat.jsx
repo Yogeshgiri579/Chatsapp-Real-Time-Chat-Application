@@ -21,7 +21,7 @@ export default function Chat() {
   useEffect(() => {
     if (!user) return;
 
-    loadData();
+    loadData(user.id);
     const cleanup = connectWS(user);
 
     return () => {
@@ -34,15 +34,7 @@ export default function Chat() {
   if (!user) return null;
 
   return (
-    <div
-      style={{
-        height: '100vh',
-        width: '100vw',
-        display: 'flex',
-        background: 'var(--bg-app)',
-        overflow: 'hidden',
-      }}
-    >
+    <div className="h-screen w-screen flex bg-[var(--bg-app)] overflow-hidden">
       <UserList />
       <ChatWindow />
     </div>
