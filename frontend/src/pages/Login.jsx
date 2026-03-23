@@ -25,15 +25,11 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-stretch bg-[var(--bg-app)] overflow-hidden">
 
-      {/* ── Left decorative panel ─────────────────────────────────── */}
       <div className="hidden lg:flex lg:w-[55%] relative items-center justify-center overflow-hidden bg-gradient-to-br from-[#1a0a10] to-[#0f0f14]">
-        {/* Background glows */}
         <div className="absolute w-[500px] h-[500px] rounded-full bg-[#ec4899] opacity-[0.12] blur-[120px] -top-20 -left-20" />
         <div className="absolute w-[400px] h-[400px] rounded-full bg-[#f97316] opacity-[0.08] blur-[100px] bottom-0 right-0" />
 
-        {/* Content */}
         <div className="relative z-10 px-16 text-white">
-          {/* Logo */}
           <div className="flex items-center gap-3 mb-16">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#ec4899] to-[#f97316] flex items-center justify-center shadow-[0_4px_16px_rgba(236,72,153,0.4)]">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -54,7 +50,6 @@ export default function Login() {
             Real-time messaging for your team. Instant delivery, always in sync, no setup required.
           </p>
 
-          {/* Feature pills */}
           <div className="flex flex-wrap gap-3 mt-10">
             {['⚡ Real-time', '🔒 Secure', '👥 Group Chats', '🟢 Online Status'].map(f => (
               <span key={f} className="px-3.5 py-1.5 rounded-full text-[13px] text-white/70 border border-white/10 bg-white/5 backdrop-blur-sm">
@@ -64,7 +59,6 @@ export default function Login() {
           </div>
         </div>
 
-        {/* Floating chat bubbles decoration */}
         <div className="absolute right-[-40px] top-1/2 -translate-y-1/2 flex flex-col gap-4 opacity-40 pointer-events-none">
           {['Hey! How are you?', 'Working on the new feature 🚀', 'LGTM! Ship it!', 'Thanks for the PR review', 'On a call, back in 5'].map((text, i) => (
             <div
@@ -82,11 +76,9 @@ export default function Login() {
         </div>
       </div>
 
-      {/* ── Right login form ──────────────────────────────────────── */}
       <div className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-[400px]">
 
-          {/* Mobile logo */}
           <div className="flex items-center gap-2.5 mb-10 lg:hidden">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#ec4899] to-[#f97316] flex items-center justify-center">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round">
@@ -104,7 +96,6 @@ export default function Login() {
           </p>
 
           <form onSubmit={handleLogin} className="flex flex-col gap-5">
-            {/* Input */}
             <div className="flex flex-col gap-1.5">
               <label htmlFor="username" className="text-[13px] font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
                 Display Name
@@ -134,7 +125,6 @@ export default function Login() {
                 )}
               </div>
 
-              {/* Error */}
               {error && (
                 <div className="flex items-center gap-1.5 text-[var(--danger)] text-[13px] mt-0.5">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -145,7 +135,6 @@ export default function Login() {
               )}
             </div>
 
-            {/* Submit button */}
             <button
               type="submit"
               id="login-btn"

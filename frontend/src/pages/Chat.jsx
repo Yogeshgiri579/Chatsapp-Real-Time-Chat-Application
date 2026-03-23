@@ -29,7 +29,7 @@ export default function Chat() {
       else disconnectWS();
       clearState();
     };
-  }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [user]); 
 
   if (!user) return null;
 

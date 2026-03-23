@@ -30,7 +30,7 @@ export function ChatProvider({ children }) {
       setActiveChatIdSynced(data[0].id);
       loadMessagesForChat(data[0].id);
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); 
 
   const loadMessagesForChat = useCallback(async (chatId) => {
     setMessagesByChat(prev => {
